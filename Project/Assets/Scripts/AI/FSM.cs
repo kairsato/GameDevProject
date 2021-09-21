@@ -29,7 +29,8 @@ public class FSM : MonoBehaviour
     public int health = 100; // Health value of the enemy
 
     //attacking section here
-    public float attackingRange = 20f;
+    public float attackingRange = 5f;
+ 
     public float earshotRange = 20f;
 
     public float visibleRange = 30f;
@@ -143,6 +144,8 @@ public class FSM : MonoBehaviour
         // Moves towards player
         nav.SetDestination(playerPosition.position);
 
+
+
         //Once it has acquired you it doesn't simply forget and thus it only transitions in and out of attacking range.
 
         if (Vector3.Distance(playerPosition.position, transform.position) < attackingRange) {
@@ -153,15 +156,17 @@ public class FSM : MonoBehaviour
     // Attack State
     protected void UpdateAttackState()
     {
+       
         //sets the animation
         animator.SetBool("Attacking", true);
 
         //make navigation idle
         nav.SetDestination(transform.position);
 
-        //if outside attack range
-        if (Vector3.Distance(playerPosition.position, transform.position) > attackingRange)
+        //if outside attack range 
+        if ((Vector3.Distance(playerPosition.position, transform.position) - 5) > attackingRange)
         {
+            Debug.Log("ree");
             currentState = FSMStates.Chase;
             animator.SetBool("Attacking", false);
         }
