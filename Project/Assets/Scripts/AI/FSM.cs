@@ -179,8 +179,12 @@ public class FSM : MonoBehaviour
     // Dead State
     protected void UpdateDeadState()
     {
+        // Stop moving
+        nav.SetDestination(transform.position);
         //play dead animation
-       
+        animator.SetBool("isDead", true);
+        // Delete after animated has played
+        Destroy(gameObject, 1.5f);
     }
 
     void OnDrawGizmosSelected()
