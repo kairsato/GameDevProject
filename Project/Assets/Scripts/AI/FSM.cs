@@ -203,7 +203,7 @@ public class FSM : MonoBehaviour
         //play dead animation
         animator.SetBool("isDead", true);
         // Delete after animated has played
-        Destroy(gameObject, 1.5f);
+        Destroy(gameObject, 5f);
     }
 
     void OnDrawGizmosSelected()
