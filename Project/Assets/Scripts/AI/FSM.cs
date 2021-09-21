@@ -201,4 +201,10 @@ public class FSM : MonoBehaviour
         Gizmos.DrawRay(temp, rightRayDirection * rayRange);
     }
 
+    public void giveDamage(int damage) // If hit - apply damage
+    {
+        health -= damage;
+
+    }
+
 }
