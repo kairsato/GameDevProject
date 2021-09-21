@@ -47,7 +47,10 @@ public class FSM : MonoBehaviour
 
     //animation
     private Animator animator;
-    
+
+    //timediff
+    private float setTime;
+    private float tempTime;
 
 
     // Start is called before the first frame update
@@ -150,6 +153,7 @@ public class FSM : MonoBehaviour
 
         if (Vector3.Distance(playerPosition.position, transform.position) < attackingRange) {
             currentState = FSMStates.Attack;
+            setTime = Time.time;
         }
     }
 
@@ -163,10 +167,20 @@ public class FSM : MonoBehaviour
         //make navigation idle
         nav.SetDestination(transform.position);
 
+    
+        //When it attacks. It continues attacking with +3 range until 2 seconds of when it was in the state was run. 
+        //all this does is give the chance for the enemy to complete an attack and miss the player instead going back into the chasing state.
+        if ((Time.time - setTime -2) < 0)
+        {           
+            tempTime = 3;
+        }
+        else {
+            tempTime = 0;
+        }
+
         //if outside attack range 
-        if ((Vector3.Distance(playerPosition.position, transform.position) - 5) > attackingRange)
-        {
-            Debug.Log("ree");
+        if ((Vector3.Distance(playerPosition.position, transform.position) - tempTime) > attackingRange)
+        {            
             currentState = FSMStates.Chase;
             animator.SetBool("Attacking", false);
         }
@@ -190,13 +204,11 @@ public class FSM : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
+        //seeing range
         temp = transform.position;
         temp.y += 3.5f;
-      
-
-
-        float totalFOV = 80.0f;
-        float rayRange = 20.0f;
+        float totalFOV = visibleFOV;
+        float rayRange = visibleRange;
         float halfFOV = totalFOV / 2.0f;
         Quaternion leftRayRotation = Quaternion.AngleAxis(-halfFOV, Vector3.up);
         Quaternion rightRayRotation = Quaternion.AngleAxis(halfFOV, Vector3.up);
@@ -204,6 +216,12 @@ public class FSM : MonoBehaviour
         Vector3 rightRayDirection = rightRayRotation * transform.forward;
         Gizmos.DrawRay(temp, leftRayDirection * rayRange);
         Gizmos.DrawRay(temp, rightRayDirection * rayRange);
+
+        //hearing range
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, earshotRange);
+
+
     }
 
     public void giveDamage(int damage) // If hit - apply damage
