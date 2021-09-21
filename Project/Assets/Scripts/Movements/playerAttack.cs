@@ -11,8 +11,9 @@ public class playerAttack : MonoBehaviour
     public string hitboxtag;
     public bool coll;
     protected float timeElapsed;
+    protected float dmg;
 
-    public float meleerate = 0.8f;
+    private float meleerate = 0.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -37,10 +38,16 @@ public class playerAttack : MonoBehaviour
 
     }
 
+    void getdmg(int dmggiven)
+    {
+        dmg = dmggiven;
+    }
+
     void createHitBox()
     {
         if (timeElapsed >= meleerate)
         {
+         //  hitBoxMelee.sendmessage("",dmg);
             // Create melee hit box
             //Instantiate(hitBoxMelee, transform.position + (transform.forward * 2), transform.rotation);
             var hitBox = (GameObject)Instantiate(hitBoxMelee, entityface.transform.position + (entityface.transform.forward * 2), entityface.transform.rotation);
@@ -54,16 +61,6 @@ public class playerAttack : MonoBehaviour
             timeElapsed = 0;
         }
     }
-    /*
-    void OnTriggerEnter(Collider otherEntity)
-    {
-        Debug.Log("Test");
-        if(otherEntity.gameObject.CompareTag("Enemy")) {
-            Debug.Log("Hit Enemy");
-        }
-        else
-        {
-            Debug.Log("Missed");
-        }
-    } */
+
+
 }

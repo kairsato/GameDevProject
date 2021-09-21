@@ -8,6 +8,8 @@ public class PHitboxP : MonoBehaviour
 
     public static string currenttag;
     public static bool col;
+    public int dmg;
+    public GameObject weapon;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,16 +23,22 @@ public class PHitboxP : MonoBehaviour
         
     }
 
+    void getdmg(int dmggiven)
+    {
+        dmg = dmggiven;
+    }
+
     
     void OnTriggerEnter(Collider otherEntity)
     {
         
         if (otherEntity.gameObject.tag == "Enemy") // If hit enemy - deal damage based on the current item equipped
         {
+           weapon.SendMessage("SwordDamage");
             Debug.Log("Hit Enemy");
             currenttag = otherEntity.gameObject.tag;
             col = true;
-            otherEntity.gameObject.SendMessage("giveDamage", 30);
+            otherEntity.gameObject.SendMessage("giveDamage", dmg);
         }
         else if (otherEntity.gameObject.tag == "Player")
         {

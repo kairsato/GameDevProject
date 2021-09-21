@@ -6,19 +6,27 @@ public class Melee : MonoBehaviour
 {
 
     public float attackSpeed;
-    public float damage;
+    public int damage;
     public string weaponType;
-    GameObject weaponModel;
+    public GameObject pObj;
+    public int currentday = 1;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        damage = 35 * currentday;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        //pObj.SendMessage("getdmg", damage);
     }
+
+    public void SwordDamage()
+    {
+        pObj.SendMessage("getdmg", damage);
+
+    }
+
 }
