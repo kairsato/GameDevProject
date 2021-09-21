@@ -66,7 +66,8 @@ public class FSM : MonoBehaviour
         //set
         nav = GetComponent<NavMeshAgent>();
 
-
+        GameObject objPlayer = GameObject.FindGameObjectWithTag("Player");
+        playerPosition = objPlayer.transform;
         currentState = FSMStates.Wander; // Start wandering when first created
 
         // Get object/tag of the player to be used in determining the players position to the AI
