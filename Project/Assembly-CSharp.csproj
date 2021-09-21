@@ -59,7 +59,7 @@
     <Compile Include="Assets\Scripts\AI\Template_SimpleFSM.cs" />
     <Compile Include="Assets\Scripts\enemyAnimation.cs" />
     <Compile Include="Assets\Scripts\Movements\playerAttack.cs" />
-    <Compile Include="Assets\Scripts\PlayerItems\Melee.cs" />
+    <Compile Include="Assets\Scripts\PlayerItems\WeaponProperties.cs" />
     <Compile Include="Assets\Scripts\Movements\PHitboxP.cs" />
     <Compile Include="Assets\Scripts\Movements\mouseLook.cs" />
     <Compile Include="Assets\Scripts\Movements\player.cs" />
@@ -67,6 +67,8 @@
     <Compile Include="Assets\Scripts\AI\FSM.cs" />
     <Compile Include="Assets\Scripts\Movements\playerMovement.cs" />
     <Compile Include="Assets\Scripts\AI\meleeAttack.cs" />
+    <Compile Include="Assets\damageController.cs" />
+    <Compile Include="Assets\gameManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Imported\Polytope Studio\Lowpoly Medieval Characters\Sources\Modular_NPC\Shaders\PT_Medieval_Modular_NPC_Shader_Toon.shader" />
