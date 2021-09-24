@@ -20,6 +20,8 @@ public class playerAttack : MonoBehaviour
     public float swingSpeed = 0.05f;
     public bool swinging = false;
 
+   
+
     private float rof;
 
     // Start is called before the first frame update
@@ -43,9 +45,12 @@ public class playerAttack : MonoBehaviour
 
         if ((Input.GetKey(KeyCode.Mouse0)) && (timeElapsed >= rof))
         {
+            weapon.GetComponent<Animation>().Play();
+
             if ((damageValues.weaponName == "sword") || (damageValues.weaponName == "axe") || (damageValues.weaponName == "Sword") || (damageValues.weaponName == "Axe"))
             {
                     createMeleeHitBox();
+
                 //weapon.transform.rotation = new Quaternion(0,0,0,0);
                 //StartCoroutine(meleeAnimation());
 
