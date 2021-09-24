@@ -12,20 +12,25 @@ public class playerAttack : MonoBehaviour
     public bool coll;
     protected float timeElapsed;
     protected float dmg;
-    private float meleerate = 0.5f;
 
     private GameObject weapon;
     public float weaponDMG;
     private WeaponProperties damageValues;
+
+    public float swingSpeed = 0.05f;
+    public bool swinging = false;
+
+    private float rof;
 
     // Start is called before the first frame update
     void Start()
     {
         weapon = GameObject.FindWithTag("Weapon");
         damageValues = weapon.GetComponent<WeaponProperties>();
-        
 
-        timeElapsed = meleerate;
+        rof = damageValues.attackSpeed;
+
+        timeElapsed = rof;
         // Get the hitbox prefab for use when required
         Instantiate(hitBoxMelee, new Vector3(0, 0, 0), Quaternion.identity);
     }
@@ -36,26 +41,57 @@ public class playerAttack : MonoBehaviour
 
         timeElapsed += Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.Mouse0))
+        if ((Input.GetKey(KeyCode.Mouse0)) && (timeElapsed >= rof))
         {
-            createHitBox();
+            if ((damageValues.weaponName == "sword") || (damageValues.weaponName == "axe") || (damageValues.weaponName == "Sword") || (damageValues.weaponName == "Axe"))
+            {
+                    createMeleeHitBox();
+                //weapon.transform.rotation = new Quaternion(0,0,0,0);
+                //StartCoroutine(meleeAnimation());
+
+
+            }
             
         }
 
 
     }
 
-    void giveDMG()
+    private IEnumerator meleeAnimation()
     {
-       
+        weapon.transform.Rotate(0, 0, 90);
         
-        //player.SendMessage("giveDamage", weaponDMG);
+        yield return new WaitForSeconds(0.15f);
+        weapon.transform.Rotate(0, 0, -90);
+    }
+
+
+    void createMeleeHitBox()
+    {
+        if (timeElapsed >= rof)
+        {
+            //  hitBoxMelee.sendmessage("",dmg);
+            // Create melee hit box
+            //Instantiate(hitBoxMelee, transform.position + (transform.forward * 2), transform.rotation);
+
+            //here we should add multiples or additional stats
+            weaponDMG = damageValues.damage;
+            var hitBox = (GameObject)Instantiate(hitBoxMelee, entityface.transform.position + (entityface.transform.forward * 2), entityface.transform.rotation);
+
+            // Check for collision - if yes run collision function
+            hitboxtag = PHitboxP.currenttag;
+            coll = PHitboxP.col;
+
+            // Delete box collider
+            Destroy(hitBox, hitBoxLifeTime);
+            timeElapsed = 0;
+        }
         
     }
 
-    void createHitBox()
+    void createRangedHitBox()
     {
-        if (timeElapsed >= meleerate)
+        if (timeElapsed >= rof)
         {
             //  hitBoxMelee.sendmessage("",dmg);
             // Create melee hit box

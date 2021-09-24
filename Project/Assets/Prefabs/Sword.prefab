@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6772232457536039688
+--- !u!1 &3224429673603034004
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,10 +8,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6246524734716916146}
-  - component: {fileID: 6998530821605899799}
-  - component: {fileID: 5114736752583625437}
-  - component: {fileID: 6772232457536039691}
+  - component: {fileID: 2879111985711427886}
+  - component: {fileID: 1178661679801122443}
+  - component: {fileID: 4017076471191947841}
+  - component: {fileID: -8968745512895090194}
   m_Layer: 0
   m_Name: Sword
   m_TagString: Weapon
@@ -19,35 +19,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6246524734716916146
+--- !u!4 &2879111985711427886
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6772232457536039688}
-  m_LocalRotation: {x: 0.4152373, y: -0.5701008, z: 0.40088642, w: -0.58468217}
-  m_LocalPosition: {x: 0.46002197, y: -0.17000085, z: 0.6899414}
+  m_GameObject: {fileID: 3224429673603034004}
+  m_LocalRotation: {x: -0.33659753, y: 0.5134788, z: -0.49445418, w: 0.61526966}
+  m_LocalPosition: {x: 0.27, y: -0.12, z: 0.51}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -1.632, y: -270.294, z: -70.496}
---- !u!33 &6998530821605899799
+  m_LocalEulerAnglesHint: {x: 5.37, y: 75.69, z: -73.4}
+--- !u!33 &1178661679801122443
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6772232457536039688}
+  m_GameObject: {fileID: 3224429673603034004}
   m_Mesh: {fileID: -5495902117074765545, guid: 796ab721a36846b44a196385f6f56c33, type: 3}
---- !u!23 &5114736752583625437
+--- !u!23 &4017076471191947841
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6772232457536039688}
+  m_GameObject: {fileID: 3224429673603034004}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -82,18 +82,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6772232457536039691
+--- !u!114 &-8968745512895090194
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6772232457536039688}
+  m_GameObject: {fileID: 3224429673603034004}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7506cd6dc3eba5247b441c2108ffeee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   attackSpeed: 1
-  damage: 45
+  damage: 35
   weaponName: sword
+  attackanim: {fileID: 1827226128182048838, guid: 796ab721a36846b44a196385f6f56c33, type: 3}
