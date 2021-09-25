@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\AI\FSM.cs" />
     <Compile Include="Assets\Scripts\Movements\playerMovement.cs" />
     <Compile Include="Assets\Scripts\AI\meleeAttack.cs" />
+    <Compile Include="Assets\Scripts\AI\Healer_FSM.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Imported\Polytope Studio\Lowpoly Medieval Characters\Sources\Modular_NPC\Shaders\PT_Medieval_Modular_NPC_Shader_Toon.shader" />
