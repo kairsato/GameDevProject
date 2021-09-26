@@ -52,10 +52,24 @@ public class FSM : MonoBehaviour
     private float setTime;
     private float tempTime;
 
+    private GameObject objPlayer;
+
+    public float attackDelay; // Delay between the attacking animation starting and when a hit is registered on the player
+    public float damage; // damage which can be dealt to player
+
+    public float attackRate;
+    private float timeElapsed;
+
+    public float timeAttack;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        timeElapsed = attackRate;
+        timeAttack = 0;
+
+
         //gets animations component
         animator = GetComponent<Animator>();
 
@@ -66,7 +80,7 @@ public class FSM : MonoBehaviour
         //set
         nav = GetComponent<NavMeshAgent>();
 
-        GameObject objPlayer = GameObject.FindGameObjectWithTag("Player");
+        objPlayer = GameObject.FindGameObjectWithTag("Player");
         playerPosition = objPlayer.transform;
         currentState = FSMStates.Wander; // Start wandering when first created
 
@@ -101,7 +115,7 @@ public class FSM : MonoBehaviour
             currentState = FSMStates.Dead;
         }
 
-       
+        timeElapsed += Time.deltaTime;
 
     }
 
@@ -162,27 +176,35 @@ public class FSM : MonoBehaviour
     // Attack State
     protected void UpdateAttackState()
     {
-       
         //sets the animation
         animator.SetBool("Attacking", true);
 
         //make navigation idle
         nav.SetDestination(transform.position);
 
-    
+        timeAttack += Time.deltaTime;
+
+        if (timeAttack >= attackRate)
+            {
+                StartCoroutine(applyDamage()); // Apply damage based on attack delay to sync with animation
+                timeAttack = 0;
+            }
+
         //When it attacks. It continues attacking with +3 range until 2 seconds of when it was in the state was run. 
         //all this does is give the chance for the enemy to complete an attack and miss the player instead going back into the chasing state.
-        if ((Time.time - setTime -2) < 0)
-        {           
-            tempTime = 3;
-        }
-        else {
-            tempTime = 0;
-        }
+        if ((Time.time - setTime - 2) < 0)
+            {
+                tempTime = 3;
+            }
+            else
+            {
+                tempTime = 0;
+            }
 
         //if outside attack range 
         if ((Vector3.Distance(playerPosition.position, transform.position) - tempTime) > attackingRange)
-        {            
+        {
+            timeAttack = 0;
             currentState = FSMStates.Chase;
             animator.SetBool("Attacking", false);
         }
@@ -228,6 +250,17 @@ public class FSM : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, earshotRange);
 
 
+    }
+
+    private IEnumerator applyDamage()
+    {
+        yield return new WaitForSeconds(attackDelay);
+        if (timeElapsed >= attackRate)
+        {
+            objPlayer.SendMessage("giveDamage", damage);
+            timeElapsed = 0;
+        }
+        
     }
 
     public void giveDamage(int damage) // If hit - apply damage

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9211679286612826365}
   - component: {fileID: 6355285821917064247}
   - component: {fileID: 3320736165077562127}
+  - component: {fileID: -8296964429149736603}
   m_Layer: 0
   m_Name: Axe
   m_TagString: Weapon
@@ -97,5 +98,18 @@ MonoBehaviour:
   attackSpeed: 1
   damage: 35
   weaponName: axe
-  attackanim: {fileID: 1827226128182048838, guid: 8cd644327a6ede34385067934831b05e, type: 3}
-  weaponAnimation: {fileID: 0}
+--- !u!111 &-8296964429149736603
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4842071881133510114}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

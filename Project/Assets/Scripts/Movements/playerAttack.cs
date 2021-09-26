@@ -62,14 +62,6 @@ public class playerAttack : MonoBehaviour
 
     }
 
-    private IEnumerator meleeAnimation()
-    {
-        weapon.transform.Rotate(0, 0, 90);
-        
-        yield return new WaitForSeconds(0.15f);
-        weapon.transform.Rotate(0, 0, -90);
-    }
-
 
     void createMeleeHitBox()
     {
