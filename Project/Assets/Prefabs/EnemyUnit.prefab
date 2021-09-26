@@ -860,21 +860,12 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< HEAD
-  - component: {fileID: 5216179351771360670}
-  - component: {fileID: 5216179351780442672}
-  - component: {fileID: 5216179351770935712}
-  - component: {fileID: 5216179351770935743}
-  - component: {fileID: 5216179351770935741}
-  - component: {fileID: -1415431752955559509}
-=======
   - component: {fileID: 399208808609569807}
   - component: {fileID: 399208808619422625}
   - component: {fileID: 399208808609923121}
   - component: {fileID: 399208808609923118}
   - component: {fileID: 399208808609923116}
   - component: {fileID: 4287280830015983396}
->>>>>>> e34eac46fd54d9004dc85942fe05f0aad63c4f49
   m_Layer: 0
   m_Name: EnemyUnit
   m_TagString: Enemy
@@ -985,27 +976,12 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
-<<<<<<< HEAD
---- !u!65 &-1415431752955559509
-BoxCollider:
-=======
 --- !u!136 &4287280830015983396
 CapsuleCollider:
->>>>>>> e34eac46fd54d9004dc85942fe05f0aad63c4f49
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 5216179351770935742}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &5216179351770935776
-=======
   m_GameObject: {fileID: 399208808609923119}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -1015,7 +991,6 @@ CapsuleCollider:
   m_Direction: 1
   m_Center: {x: 0, y: 0.08, z: 0}
 --- !u!1 &399208808609923169
->>>>>>> e34eac46fd54d9004dc85942fe05f0aad63c4f49
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

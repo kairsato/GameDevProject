@@ -5,7 +5,8 @@ using UnityEngine.AI;
 public class FSM : MonoBehaviour
 {
 
-    public enum FSMStates{ // States the AI can be in
+    public enum FSMStates
+    { // States the AI can be in
         None,
         Wander,
         Chase,
@@ -17,7 +18,9 @@ public class FSM : MonoBehaviour
     public FSMStates currentState; // Current state
 
     public float movementSpeed = 15.0f;  // Speed the enemy AI moves to a location (or towards the player)
-    public float rotationSpeed = 10.0f;  // Speed the enemy AI rotates
+
+    public float rotationSpeed = 1.0f;  // Speed the enemy AI rotates
+
     public float attackSpeed = 5.0f;  // Speed/interval between each attack
 
     public Transform playerPosition; // Players position the AI will chase when in range
@@ -30,7 +33,7 @@ public class FSM : MonoBehaviour
 
     //attacking section here
     public float attackingRange = 5f;
- 
+
     public float earshotRange = 20f;
 
     public float visibleRange = 30f;
@@ -57,17 +60,23 @@ public class FSM : MonoBehaviour
     public float attackDelay; // Delay between the attacking animation starting and when a hit is registered on the player
     public float damage; // damage which can be dealt to player
 
-    public float attackRate;
-    private float timeElapsed;
 
-    public float timeAttack;
+
+
+
+
+
+
+    public float attackAngle = 10;
+    private bool aniRan;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
-        timeElapsed = attackRate;
-        timeAttack = 0;
+       // theanimation = GetComponent<Animator>();
+       
 
 
         //gets animations component
@@ -85,9 +94,9 @@ public class FSM : MonoBehaviour
         currentState = FSMStates.Wander; // Start wandering when first created
 
         // Get object/tag of the player to be used in determining the players position to the AI
-       // GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-       // playerPosition = playerObject.transform;
-        if(!playerPosition)
+        // GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        // playerPosition = playerObject.transform;
+        if (!playerPosition)
         {
             print("ERROR: Player object not found - assign player object with 'Player' tag");
         }
@@ -115,7 +124,7 @@ public class FSM : MonoBehaviour
             currentState = FSMStates.Dead;
         }
 
-        timeElapsed += Time.deltaTime;
+       
 
     }
 
@@ -124,37 +133,38 @@ public class FSM : MonoBehaviour
     protected void UpdateWanderState()
     {
         //sets the animation
-        animator.SetFloat("Velocity", nav.velocity.magnitude/3);
+        animator.SetFloat("Velocity", nav.velocity.magnitude / 3);
 
         // Moves towards waypoint
         nav.SetDestination(waypointList[currentWayPoint].transform.position);
 
-     
+
         //go from 1 point to another
         if (nav.remainingDistance < 0.5f)
         {
             currentWayPoint += 1;
         }
-        if (currentWayPoint > waypointList.Length-1)
+        if (currentWayPoint > waypointList.Length - 1)
         {
             currentWayPoint = 0;
         }
 
         //transition out if user earshot or within seeing range.
-        if (Vector3.Distance(playerPosition.position, transform.position) < earshotRange  || ((Vector3.Angle(transform.forward, playerPosition.transform.position - transform.position) < visibleFOV && Vector3.Distance(playerPosition.position, transform.position) < visibleRange))) {
-            currentState = FSMStates.Chase;           
+        if (Vector3.Distance(playerPosition.position, transform.position) < earshotRange || ((Vector3.Angle(transform.forward, playerPosition.transform.position - transform.position) < visibleFOV && Vector3.Distance(playerPosition.position, transform.position) < visibleRange)))
+        {
+            currentState = FSMStates.Chase;
 
         }
-       
+
 
     }
 
     // Attack State
     protected void UpdateChaseState()
     {
-       
+
         //sets the animation
-        animator.SetFloat("Velocity", nav.velocity.magnitude/3);
+        animator.SetFloat("Velocity", nav.velocity.magnitude / 3);
 
         //increases speed to chase the player
         nav.speed = 10;
@@ -162,14 +172,17 @@ public class FSM : MonoBehaviour
         // Moves towards player
         nav.SetDestination(playerPosition.position);
 
-     
+
 
 
         //Once it has acquired you it doesn't simply forget and thus it only transitions in and out of attacking range.
 
-        if (Vector3.Distance(playerPosition.position, transform.position) < attackingRange) {
+        if (Vector3.Distance(playerPosition.position, transform.position) < attackingRange)
+        {
             currentState = FSMStates.Attack;
             setTime = Time.time;
+
+            
         }
     }
 
@@ -182,29 +195,55 @@ public class FSM : MonoBehaviour
         //make navigation idle
         nav.SetDestination(transform.position);
 
-        timeAttack += Time.deltaTime;
 
-        if (timeAttack >= attackRate)
-            {
-                StartCoroutine(applyDamage()); // Apply damage based on attack delay to sync with animation
-                timeAttack = 0;
+        Quaternion turretRotation = Quaternion.LookRotation(playerPosition.position - transform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation, turretRotation, Time.deltaTime * rotationSpeed);
+
+
+        animator = GetComponent<Animator>();
+        //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1);
+
+        if (!aniRan && (animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) <= 0.35) {
+            aniRan = true;
+        }
+
+        if ((animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) > 0.35 && aniRan)
+        {
+            //if the enemy isn't facing the play don't apply damage
+
+            Debug.Log(Vector3.Dot(((playerPosition.transform.position - transform.position).normalized), transform.forward));
+            if (Vector3.Dot(((playerPosition.transform.position - transform.position).normalized), transform.forward) > 0.6){
+                objPlayer.SendMessage("giveDamage", damage);
             }
+           
+
+           
+            
+
+           
+            aniRan = false;
+        }
+        
+        
+     
+
+        
 
         //When it attacks. It continues attacking with +3 range until 2 seconds of when it was in the state was run. 
         //all this does is give the chance for the enemy to complete an attack and miss the player instead going back into the chasing state.
         if ((Time.time - setTime - 2) < 0)
-            {
-                tempTime = 3;
-            }
-            else
-            {
-                tempTime = 0;
-            }
+        {
+            tempTime = 3;
+        }
+        else
+        {
+            tempTime = 0;
+        }
 
         //if outside attack range 
         if ((Vector3.Distance(playerPosition.position, transform.position) - tempTime) > attackingRange)
         {
-            timeAttack = 0;
+           
             currentState = FSMStates.Chase;
             animator.SetBool("Attacking", false);
         }
@@ -252,16 +291,7 @@ public class FSM : MonoBehaviour
 
     }
 
-    private IEnumerator applyDamage()
-    {
-        yield return new WaitForSeconds(attackDelay);
-        if (timeElapsed >= attackRate)
-        {
-            objPlayer.SendMessage("giveDamage", damage);
-            timeElapsed = 0;
-        }
-        
-    }
+   
 
     public void giveDamage(int damage) // If hit - apply damage
     {
