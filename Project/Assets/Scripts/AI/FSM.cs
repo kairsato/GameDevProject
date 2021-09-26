@@ -140,7 +140,7 @@ public class FSM : MonoBehaviour
     {
        
         //sets the animation
-        animator.SetFloat("Velocity", nav.velocity.magnitude / 3);
+        animator.SetFloat("Velocity", nav.velocity.magnitude/3);
 
         //increases speed to chase the player
         nav.speed = 10;
@@ -148,6 +148,7 @@ public class FSM : MonoBehaviour
         // Moves towards player
         nav.SetDestination(playerPosition.position);
 
+     
 
 
         //Once it has acquired you it doesn't simply forget and thus it only transitions in and out of attacking range.
