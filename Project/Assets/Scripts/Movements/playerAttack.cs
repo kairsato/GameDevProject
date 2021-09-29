@@ -6,7 +6,10 @@ public class playerAttack : MonoBehaviour
 {
 
     public GameObject hitBoxMelee;
+    public GameObject hitBoxRanged;
+    
     public float hitBoxLifeTime = 0.1f;
+    public float arrowLifeTime = 5f;
     public Camera entityface;
     public string hitboxtag;
     public bool coll;
@@ -48,7 +51,8 @@ public class playerAttack : MonoBehaviour
 
 
         // Get the hitbox prefab for use when required
-        Instantiate(hitBoxMelee, new Vector3(0, 0, 0), Quaternion.identity); 
+        Instantiate(hitBoxMelee, new Vector3(0, 0, 0), Quaternion.identity);
+        Instantiate(hitBoxRanged, new Vector3(0, 0, 0), Quaternion.identity);
     }
 
     // Update is called once per frame
@@ -70,21 +74,17 @@ public class playerAttack : MonoBehaviour
 
         timeElapsed += Time.deltaTime;
 
-        if ((Input.GetKey(KeyCode.Mouse0)) && (timeElapsed >= rof))
+        if (Input.GetKey(KeyCode.Mouse0))
         {
 
             if ((damageValues.weaponName == "sword") || (damageValues.weaponName == "axe") || (damageValues.weaponName == "Sword") || (damageValues.weaponName == "Axe"))
             {
-                weapon.GetComponent<Animation>().Play();
+           
                 createMeleeHitBox();
-
-                //weapon.transform.rotation = new Quaternion(0,0,0,0);
-                //StartCoroutine(meleeAnimation());
-
 
             }
 
-            if ((damageValues.weaponName == "bow") || (damageValues.weaponName == "Bow") || (damageValues.weaponName == "crossbow") || (damageValues.weaponName == "Crossbow"))
+            if ((damageValues.weaponName == "bowarrow") || (damageValues.weaponName == "crossbowarrow"))
             {
 
                 createRangedHitBox();
@@ -102,6 +102,7 @@ public class playerAttack : MonoBehaviour
     {
         if (timeElapsed >= rof)
         {
+            weapon.GetComponent<Animation>().Play();
             //  hitBoxMelee.sendmessage("",dmg);
             // Create melee hit box
             //Instantiate(hitBoxMelee, transform.position + (transform.forward * 2), transform.rotation);
@@ -121,6 +122,26 @@ public class playerAttack : MonoBehaviour
 
     void createRangedHitBox()
     {
+        //Quaternion cameraAngles = entityface.transform.rotation;
+        //cameraAngles.x += 90;
+        var hitBox = (GameObject)Instantiate(hitBoxRanged, entityface.transform.position + (entityface.transform.forward * 2), entityface.transform.rotation);
+
+        
+        Rigidbody arrowRB = hitBox.GetComponent<Rigidbody>();
+        arrowRB.velocity = entityface.transform.forward * 30;
+
+        // Check for collision - if yes run collision function
+        hitboxtag = PHitboxP.currenttag;
+        coll = PHitboxP.col;
+
+        Destroy(hitBox, arrowLifeTime);
+        timeElapsed = 0;
+
+        // Check for collision - if yes run collision function
+        // hitboxtag = PHitboxP.currenttag;
+        //coll = PHitboxP.col;
+
+        /*
         if (timeElapsed >= rof)
         {
             //  hitBoxMelee.sendmessage("",dmg);
@@ -136,7 +157,7 @@ public class playerAttack : MonoBehaviour
             // Delete box collider
             Destroy(hitBox, hitBoxLifeTime);
             timeElapsed = 0;
-        }
+        }*/
     }
 
 

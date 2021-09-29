@@ -32,7 +32,7 @@ public class PHitboxP : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        dmg = damageValues.weaponDMG;
     }
 
     void getdmg(int dmggiven)
@@ -43,8 +43,9 @@ public class PHitboxP : MonoBehaviour
     
     void OnTriggerEnter(Collider otherEntity)
     {
+        
         //update dmg values
-        dmg = damageValues.weaponDMG;
+        //dmg = damageValues.weaponDMG;
 
         if (otherEntity.gameObject.tag == "Enemy") // If hit enemy - deal damage based on the current item equipped
         {
@@ -66,7 +67,7 @@ public class PHitboxP : MonoBehaviour
             currenttag = "Nothing";
             col = true;
         }
-
+        
 
     }
 }

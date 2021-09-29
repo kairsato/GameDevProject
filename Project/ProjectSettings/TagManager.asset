@@ -8,6 +8,12 @@ TagManager:
   - Weapon
   - RangedWeapon
   - CurrentEquip
+  - Sword
+  - Axe
+  - Bow
+  - BowArrow
+  - Crossbow
+  - CrossbowArrow
   layers:
   - Default
   - TransparentFX
