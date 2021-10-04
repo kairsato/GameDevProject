@@ -20,9 +20,12 @@ public class EquippedItems : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Defines where the weapons will be located in the hierarchy
         MC = GameObject.FindWithTag("MainCamera");
-        equippedMelee = GameObject.FindWithTag("Axe");
+        // Defines starting Melee and Ranged weapons
+        equippedMelee = GameObject.FindWithTag("Sword");
         equippedRanged = GameObject.FindWithTag("Bow");
+        // Create the melee weapon as the starting equipped weapon
         currentEquipped = Instantiate(equippedMelee, MC.transform);
         currentEquipped.tag = "CurrentEquip";
         WP = currentEquipped.GetComponent<WeaponProperties>();

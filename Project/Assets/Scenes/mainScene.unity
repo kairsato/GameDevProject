@@ -280,7 +280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equippedMelee: {fileID: 0}
-  equippedRanged: {fileID: 3882705298743252763, guid: 0263a3a0678c84948968dcd9d367db9d, type: 3}
+  equippedRanged: {fileID: 0}
   currentEquipped: {fileID: 0}
   MC: {fileID: 0}
   p: {fileID: 0}

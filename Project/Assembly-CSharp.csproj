@@ -59,7 +59,7 @@
      <Compile Include="Assets\Scripts\PlayerItems\EquippedItems.cs" />
      <Compile Include="Assets\Scripts\AI\FSM.cs" />
      <Compile Include="Assets\Scripts\AI\Healer_FSM.cs" />
-     <Compile Include="Assets\Scripts\Movements\PHitboxPR.cs" />
+     <Compile Include="Assets\Scripts\UI\MainMenuButtonManager.cs" />
      <Compile Include="Assets\Scripts\Movements\playerMovement.cs" />
      <Compile Include="Assets\Scripts\AI\meleeAttack.cs" />
      <None Include="Assets\Imported\Polytope Studio\Lowpoly Medieval Characters\Sources\Modular_NPC\Shaders\PT_Medieval_Modular_NPC_Shader_Toon.shader" />
