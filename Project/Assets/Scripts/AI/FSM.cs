@@ -62,7 +62,7 @@ public class FSM : MonoBehaviour
 
 
 
-
+    public string enemyType;
 
 
 
@@ -203,49 +203,52 @@ public class FSM : MonoBehaviour
         animator = GetComponent<Animator>();
         //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1);
 
-        if (!aniRan && (animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) <= 0.35) {
-            aniRan = true;
-        }
-
-        if ((animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) > 0.35 && aniRan)
-        {
-            //if the enemy isn't facing the play don't apply damage
-
-            Debug.Log(Vector3.Dot(((playerPosition.transform.position - transform.position).normalized), transform.forward));
-            if (Vector3.Dot(((playerPosition.transform.position - transform.position).normalized), transform.forward) > 0.5){
-                objPlayer.SendMessage("giveDamage", damage);
+        if (enemyType == "melee") {
+            if (!aniRan && (animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) <= 0.35) {
+                aniRan = true;
             }
-           
 
-           
-            
+            if ((animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) > 0.35 && aniRan)
+            {
+                //if the enemy isn't facing the play don't apply damage
 
-           
-            aniRan = false;
-        }
-        
-        
-     
+                Debug.Log(Vector3.Dot(((playerPosition.transform.position - transform.position).normalized), transform.forward));
+                if (Vector3.Dot(((playerPosition.transform.position - transform.position).normalized), transform.forward) > 0.5) {
+                    objPlayer.SendMessage("giveDamage", damage);
+                }
 
-        
 
-        //When it attacks. It continues attacking with +3 range until 2 seconds of when it was in the state was run. 
-        //all this does is give the chance for the enemy to complete an attack and miss the player instead going back into the chasing state.
-        if ((Time.time - setTime - 2) < 0)
-        {
-            tempTime = 3;
-        }
-        else
-        {
-            tempTime = 0;
-        }
 
-        //if outside attack range 
-        if ((Vector3.Distance(playerPosition.position, transform.position) - tempTime) > attackingRange)
-        {
-           
-            currentState = FSMStates.Chase;
-            animator.SetBool("Attacking", false);
+
+
+
+                aniRan = false;
+            }
+
+
+
+
+
+
+            //When it attacks. It continues attacking with +3 range until 2 seconds of when it was in the state was run. 
+            //all this does is give the chance for the enemy to complete an attack and miss the player instead going back into the chasing state.
+            if ((Time.time - setTime - 2) < 0)
+            {
+                tempTime = 3;
+            }
+            else
+            {
+                tempTime = 0;
+            }
+
+            //if outside attack range 
+            if ((Vector3.Distance(playerPosition.position, transform.position) - tempTime) > attackingRange)
+            {
+
+                currentState = FSMStates.Chase;
+                animator.SetBool("Attacking", false);
+            }
+
         }
 
     }
