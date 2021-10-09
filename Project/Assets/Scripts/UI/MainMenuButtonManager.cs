@@ -8,7 +8,14 @@ public class MainMenuButtonManager : MonoBehaviour
 
 {
 
- 
+    // Defines the main menu, options, and credits objects which are enabled/disabled based what buttons are pressed
+    public GameObject main;
+
+    public GameObject options;
+
+    public GameObject team;
+
+    public GameObject credits;
 
     void start ()
     {
@@ -34,7 +41,10 @@ public class MainMenuButtonManager : MonoBehaviour
         Application.Quit();
     }
 
-
+    public void showOptions()
+    {
+        main.SetActive(false);
+    }
     
 
     public void showCredits()

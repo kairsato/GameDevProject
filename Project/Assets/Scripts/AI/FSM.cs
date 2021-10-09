@@ -70,6 +70,8 @@ public class FSM : MonoBehaviour
     public float attackAngle = 10;
     private bool aniRan;
 
+    public float animationDamageTime;
+
 
 
     // Start is called before the first frame update
@@ -213,7 +215,7 @@ public class FSM : MonoBehaviour
                 //if the enemy isn't facing the play don't apply damage
 
                 Debug.Log(Vector3.Dot(((playerPosition.transform.position - transform.position).normalized), transform.forward));
-                if (Vector3.Dot(((playerPosition.transform.position - transform.position).normalized), transform.forward) > 0.5) {
+                if (Vector3.Dot(((playerPosition.transform.position - transform.position).normalized), transform.forward) > animationDamageTime) {
                     objPlayer.SendMessage("giveDamage", damage);
                 }
 
@@ -250,6 +252,15 @@ public class FSM : MonoBehaviour
             }
 
         }
+
+        if (enemyType == "ranged")
+        {
+
+
+        }
+
+
+
 
     }
 
