@@ -7,18 +7,54 @@ public class gameManager : MonoBehaviour
 {
     public int gold  = 100;
     public int day = 0;
+    public Text dayHUD;
 
+    //1440 minutes in a day
+    public float timeOfDay = 0;
+    public float timeSpeed = 5;
+    public bool isDay = true;
     public Text GoldValue;
+
+    public GameObject Sun;
+    public GameObject Moon;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        isDay = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        dayHUD.text = "Day: " + day.ToString();
+
+        if (isDay)
+        {
+            Moon.transform.eulerAngles = new Vector3(0, 0, 0);
+            Sun.SetActive(true);
+            Moon.SetActive(false);
+            Debug.Log(Sun.transform.rotation.x);
+            Sun.transform.Rotate(timeSpeed * Time.deltaTime, 0, 0);
+        }
+        else {
+            Sun.transform.eulerAngles = new Vector3(0,0,0);
+            Sun.SetActive(false);
+            Moon.SetActive(true);
+            Moon.transform.Rotate(timeSpeed * Time.deltaTime, 0, 0);
+        }
+
+        if (Sun.transform.localRotation.eulerAngles.x >= 180 || Moon.transform.localRotation.eulerAngles.x >= 180)
+        {
+            Sun.transform.eulerAngles = new Vector3(0, 0,0);
+            Moon.transform.eulerAngles = new Vector3(0, 0, 0);
+
+            isDay = !isDay;
+            if (isDay) {
+                day += 1;
+            }
+        }
         GoldValue.text = gold.ToString();
     }
 
