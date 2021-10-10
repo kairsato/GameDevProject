@@ -15,6 +15,7 @@ public class FSM : MonoBehaviour
         Dead,
     }
 
+
     public FSMStates currentState; // Current state
 
     public float movementSpeed = 15.0f;  // Speed the enemy AI moves to a location (or towards the player)
@@ -32,6 +33,8 @@ public class FSM : MonoBehaviour
     protected bool Dead; // Determines if the AI is dead - intiate dead state
 
     public int health = 100; // Health value of the enemy
+    public int goldAmount = 50;
+
 
     //attacking section here
     public float attackingRange = 5f;
@@ -52,6 +55,7 @@ public class FSM : MonoBehaviour
 
     //animation
     private Animator animator;
+    private bool isDeadconfirmed = false; 
 
     //timediff
     private float setTime;
@@ -94,6 +98,8 @@ public class FSM : MonoBehaviour
 
         //set
         nav = GetComponent<NavMeshAgent>();
+
+
 
         objPlayer = GameObject.FindGameObjectWithTag("Player");
         playerPosition = objPlayer.transform;
@@ -298,6 +304,7 @@ public class FSM : MonoBehaviour
                 nav.SetDestination(transform.position);
                 if ((Vector3.Distance(playerPosition.position, transform.position) - tempTime) < attackingRange) {
                     objPlayer.SendMessage("giveDamage", damage);
+                    
                 }
                 timeElapsed = 0;
 
@@ -334,6 +341,11 @@ public class FSM : MonoBehaviour
         animator.SetBool("isDead", true);
         // Delete after animated has played
         Destroy(gameObject, 5f);
+        if (!isDeadconfirmed) {
+            isDeadconfirmed = true;
+            GameObject.FindGameObjectWithTag("GameManager").SendMessage("giveGold", goldAmount);
+        }
+       
     }
 
     void OnDrawGizmosSelected()
@@ -366,4 +378,5 @@ public class FSM : MonoBehaviour
 
     }
 
+    
 }

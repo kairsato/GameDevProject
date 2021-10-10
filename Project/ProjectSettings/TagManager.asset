@@ -15,6 +15,9 @@ TagManager:
   - Crossbow
   - CrossbowArrow
   - MainMenu
+  - ManaSprite
+  - HealthSprite
+  - GameManager
   layers:
   - Default
   - TransparentFX
