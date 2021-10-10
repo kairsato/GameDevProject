@@ -6,14 +6,16 @@ using UnityEngine.UI;
 public class player : MonoBehaviour
 {
 
+    public GameObject HUD;
     public float playerHealth;
     public Image health;
     public GameObject DeadScreen;
-    private float maxWidth = 200;
+    private float maxWidth = 500;
 
     // Start is called before the first frame update
     void Start()
     {
+        HUD.SetActive(true);
         playerHealth = 100;
         DeadScreen.SetActive(false);
     }
@@ -23,7 +25,7 @@ public class player : MonoBehaviour
     {
         // Update current health
         //healthText.text = "Health:" + playerHealth.ToString();
-        health.rectTransform.sizeDelta = new Vector2((float)maxWidth * (playerHealth / 100), 25);
+        health.rectTransform.sizeDelta = new Vector2((float)maxWidth * (playerHealth / 100), 50);
 
         if (playerHealth <= 0)
         {
@@ -38,6 +40,7 @@ public class player : MonoBehaviour
     }
     public void dead()
     {
+        HUD.SetActive(false) ;
         DeadScreen.SetActive(true);
         Time.timeScale = 0f;
         //health.SetActive(true);

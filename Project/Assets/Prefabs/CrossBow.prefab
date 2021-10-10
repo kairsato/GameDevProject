@@ -336,7 +336,7 @@ GameObject:
   - component: {fileID: 1120794088011827863}
   m_Layer: 0
   m_Name: CrossBow
-  m_TagString: RangedWeapon
+  m_TagString: Crossbow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
