@@ -4,8 +4,11 @@
 #
 
 
+[Li]brary/
+[Tt]emp/
+[Ll]ogs/
 
-/[Li]brary/
+[Li]brary/
 /[Tt]emp/
 /[Oo]bj/
 /[Bb]uild/
