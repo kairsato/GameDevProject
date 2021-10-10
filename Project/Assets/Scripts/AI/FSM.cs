@@ -232,7 +232,7 @@ public class FSM : MonoBehaviour
             {
                 //if the enemy isn't facing the play don't apply damage
 
-                Debug.Log(Vector3.Dot(((playerPosition.transform.position - transform.position).normalized), transform.forward));
+               
                 if (Vector3.Dot(((playerPosition.transform.position - transform.position).normalized), transform.forward) > animationDamageTime) {
                     objPlayer.SendMessage("giveDamage", damage);
                 }

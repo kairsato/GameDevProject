@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class gameManager : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class gameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+      
         isDay = true;
     }
 
@@ -35,7 +37,7 @@ public class gameManager : MonoBehaviour
             Moon.transform.eulerAngles = new Vector3(0, 0, 0);
             Sun.SetActive(true);
             Moon.SetActive(false);
-            Debug.Log(Sun.transform.rotation.x);
+           
             Sun.transform.Rotate(timeSpeed * Time.deltaTime, 0, 0);
         }
         else {
@@ -49,6 +51,8 @@ public class gameManager : MonoBehaviour
         {
             Sun.transform.eulerAngles = new Vector3(0, 0,0);
             Moon.transform.eulerAngles = new Vector3(0, 0, 0);
+
+            Debug.Log(RandomNavmeshLocation(10));
 
             isDay = !isDay;
             if (isDay) {
@@ -65,5 +69,17 @@ public class gameManager : MonoBehaviour
     {
         gold += amount;
         
+    }
+    public Vector3 RandomNavmeshLocation(float radius)
+    {
+        Vector3 randomDirection = Random.insideUnitSphere * radius;
+        randomDirection += transform.position;
+        NavMeshHit hit;
+        Vector3 finalPosition = Vector3.zero;
+        if (NavMesh.SamplePosition(randomDirection, out hit, radius, 1))
+        {
+            finalPosition = hit.position;
+        }
+        return finalPosition;
     }
 }
