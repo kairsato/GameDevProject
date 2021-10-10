@@ -23,6 +23,8 @@ public class FSM : MonoBehaviour
 
     public float attackSpeed = 5.0f;  // Speed/interval between each attack
 
+    public float arrowLifeTime = 5f;
+
     public Transform playerPosition; // Players position the AI will chase when in range
     protected Vector3 destination; // Destination location when wandering
     public float wanderRadius = 20.0f; // Radius the AI will pick which is a random spot within this radius to wander towards
@@ -72,14 +74,16 @@ public class FSM : MonoBehaviour
 
     public float animationDamageTime;
 
+    public float timeElapsed = 0;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
-       // theanimation = GetComponent<Animator>();
-       
+        // theanimation = GetComponent<Animator>();
 
+        timeElapsed = 0;
 
         //gets animations component
         animator = GetComponent<Animator>();
@@ -105,11 +109,15 @@ public class FSM : MonoBehaviour
 
         Dead = false; // AI is not dead - therefore false
 
+        waypointList[0] = GameObject.Find("wayPoint (0)");
+        waypointList[1] = GameObject.Find("wayPoint (1)");
+        waypointList[2] = GameObject.Find("wayPoint (2)");
     }
 
     // Update is called once per frame
     void Update()
     {
+        timeElapsed += Time.deltaTime;
 
         switch (currentState) // Depending on the current state - call respective function to update current state
         {
@@ -191,11 +199,15 @@ public class FSM : MonoBehaviour
     // Attack State
     protected void UpdateAttackState()
     {
-        //sets the animation
-        animator.SetBool("Attacking", true);
+        if (enemyType == "melee")
+        {
+            //sets the animation
+            animator.SetBool("Attacking", true);
+            //make navigation idle
+            nav.SetDestination(transform.position);
+        }
 
-        //make navigation idle
-        nav.SetDestination(transform.position);
+
 
 
         Quaternion turretRotation = Quaternion.LookRotation(playerPosition.position - transform.position);
@@ -243,22 +255,63 @@ public class FSM : MonoBehaviour
                 tempTime = 0;
             }
 
-            //if outside attack range 
-            if ((Vector3.Distance(playerPosition.position, transform.position) - tempTime) > attackingRange)
-            {
-
-                currentState = FSMStates.Chase;
-                animator.SetBool("Attacking", false);
-            }
 
         }
 
         if (enemyType == "ranged")
         {
 
+            if (timeElapsed > attackSpeed)
+            {
+
+             //sets the animation
+            animator.SetBool("Attacking", true);
+            //make navigation idle
+            nav.SetDestination(transform.position);
+
+
+                // Create an arrow at fire it towards the player
+
+                Vector3 ArrowPos = new Vector3(0f, 2f, 0f);
+                var arrow = (GameObject)Instantiate(GameObject.Find("EnemyArrow"), transform.position + (transform.forward * 2) + ArrowPos, transform.rotation);
+
+                Rigidbody arrowEnemy = arrow.GetComponent<Rigidbody>();
+                arrowEnemy.velocity = transform.forward * 30;
+
+                Destroy(arrow, arrowLifeTime);
+                timeElapsed = 0;
+
+
+            }
+
 
         }
 
+        if (enemyType == "magic")
+        {
+
+            if (timeElapsed > attackSpeed)
+            {
+                //sets the animation
+                animator.SetBool("Attacking", true);
+                //make navigation idle
+                nav.SetDestination(transform.position);
+                if ((Vector3.Distance(playerPosition.position, transform.position) - tempTime) < attackingRange) {
+                    objPlayer.SendMessage("giveDamage", damage);
+                }
+                timeElapsed = 0;
+
+            }
+
+        }
+
+        //if outside attack range 
+        if ((Vector3.Distance(playerPosition.position, transform.position) - tempTime) > attackingRange)
+        {
+
+            currentState = FSMStates.Chase;
+            animator.SetBool("Attacking", false);
+        }
 
 
 
