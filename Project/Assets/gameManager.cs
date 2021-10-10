@@ -6,9 +6,11 @@ using UnityEngine.AI;
 
 public class gameManager : MonoBehaviour
 {
-    public int gold  = 100;
+    public int gold = 100;
     public int day = 0;
     public Text dayHUD;
+
+    public float range = 10.0f;
 
     //1440 minutes in a day
     public float timeOfDay = 0;
@@ -19,11 +21,15 @@ public class gameManager : MonoBehaviour
     public GameObject Sun;
     public GameObject Moon;
 
+    public GameObject player;
+
+    public GameObject enemyUnit;
+    public bool end = false;
 
     // Start is called before the first frame update
     void Start()
     {
-      
+        player = GameObject.FindWithTag("Player");
         isDay = true;
     }
 
@@ -37,11 +43,12 @@ public class gameManager : MonoBehaviour
             Moon.transform.eulerAngles = new Vector3(0, 0, 0);
             Sun.SetActive(true);
             Moon.SetActive(false);
-           
+
             Sun.transform.Rotate(timeSpeed * Time.deltaTime, 0, 0);
         }
-        else {
-            Sun.transform.eulerAngles = new Vector3(0,0,0);
+        else
+        {
+            Sun.transform.eulerAngles = new Vector3(0, 0, 0);
             Sun.SetActive(false);
             Moon.SetActive(true);
             Moon.transform.Rotate(timeSpeed * Time.deltaTime, 0, 0);
@@ -49,37 +56,59 @@ public class gameManager : MonoBehaviour
 
         if (Sun.transform.localRotation.eulerAngles.x >= 180 || Moon.transform.localRotation.eulerAngles.x >= 180)
         {
-            Sun.transform.eulerAngles = new Vector3(0, 0,0);
+            Sun.transform.eulerAngles = new Vector3(0, 0, 0);
             Moon.transform.eulerAngles = new Vector3(0, 0, 0);
 
-            Debug.Log(RandomNavmeshLocation(10));
+
 
             isDay = !isDay;
-            if (isDay) {
+            if (isDay)
+            {
                 day += 1;
             }
+
+            Vector3 point;
+            if (RandomPoint(player.transform.position, range, out point))
+            {
+                Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
+            }
+            Debug.Log(point);
+            Instantiate(enemyUnit, point,player.transform.rotation);
+
         }
         GoldValue.text = gold.ToString();
+        if (day >= 5 && !end)
+        {
+            end = true;
+            //teleport player etc.
+        }
     }
 
-    public int returnGold() {
+    public int returnGold()
+    {
         return gold;
     }
     public void giveGold(int amount)
     {
         gold += amount;
-        
+
     }
-    public Vector3 RandomNavmeshLocation(float radius)
+
+    bool RandomPoint(Vector3 center, float range, out Vector3 result)
     {
-        Vector3 randomDirection = Random.insideUnitSphere * radius;
-        randomDirection += transform.position;
-        NavMeshHit hit;
-        Vector3 finalPosition = Vector3.zero;
-        if (NavMesh.SamplePosition(randomDirection, out hit, radius, 1))
+        for (int i = 0; i < 30; i++)
         {
-            finalPosition = hit.position;
+            Vector3 randomPoint = center + Random.insideUnitSphere * range;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
+            {
+                result = hit.position;
+                return true;
+            }
         }
-        return finalPosition;
+        result = Vector3.zero;
+        return false;
     }
+
+   
 }

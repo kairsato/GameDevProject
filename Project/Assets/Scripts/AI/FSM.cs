@@ -115,9 +115,17 @@ public class FSM : MonoBehaviour
 
         Dead = false; // AI is not dead - therefore false
 
-        waypointList[0] = GameObject.Find("wayPoint (0)");
-        waypointList[1] = GameObject.Find("wayPoint (1)");
-        waypointList[2] = GameObject.Find("wayPoint (2)");
+        if (waypointList.Length != 0)
+        {
+            waypointList[0] = GameObject.Find("wayPoint (0)");
+            waypointList[1] = GameObject.Find("wayPoint (1)");
+            waypointList[2] = GameObject.Find("wayPoint (2)");
+        }
+        else {
+
+            currentState = FSMStates.Chase;
+        }
+        
     }
 
     // Update is called once per frame
