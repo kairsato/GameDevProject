@@ -63,7 +63,7 @@ public class PHitboxP : MonoBehaviour
         }
         else
         {
-           
+            //Debug.Log("Called");
             currenttag = "Nothing";
             col = true;
         }

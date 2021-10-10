@@ -22,23 +22,34 @@ public class gameManager : MonoBehaviour
     public GameObject Moon;
 
     public GameObject player;
+    public GameObject boss;
 
     public GameObject enemyUnit;
     public bool end = false;
+    public bool teleported;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindWithTag("Player");
+        //boss = GameObject.Find("Boss");
+
+        //boss.GetComponent<Pathfinder>().enabled = false;
+        //boss.SetActive(false);
+
         isDay = true;
+        teleported = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        
+
         dayHUD.text = "Day: " + day.ToString();
 
-        if (isDay)
+        if (isDay && !end)
         {
             Moon.transform.eulerAngles = new Vector3(0, 0, 0);
             Sun.SetActive(true);
@@ -48,13 +59,17 @@ public class gameManager : MonoBehaviour
         }
         else
         {
-            Sun.transform.eulerAngles = new Vector3(0, 0, 0);
-            Sun.SetActive(false);
-            Moon.SetActive(true);
-            Moon.transform.Rotate(timeSpeed * Time.deltaTime, 0, 0);
+            if (!end)
+            {
+                Sun.transform.eulerAngles = new Vector3(0, 0, 0);
+                Sun.SetActive(false);
+                Moon.SetActive(true);
+                Moon.transform.Rotate(timeSpeed * Time.deltaTime, 0, 0);
+            }
+
         }
 
-        if (Sun.transform.localRotation.eulerAngles.x >= 180 || Moon.transform.localRotation.eulerAngles.x >= 180)
+        if ((Sun.transform.localRotation.eulerAngles.x >= 180 || Moon.transform.localRotation.eulerAngles.x >= 180) && !end)
         {
             Sun.transform.eulerAngles = new Vector3(0, 0, 0);
             Moon.transform.eulerAngles = new Vector3(0, 0, 0);
@@ -73,14 +88,25 @@ public class gameManager : MonoBehaviour
                 Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
             }
             Debug.Log(point);
-            Instantiate(enemyUnit, point,player.transform.rotation);
+            Instantiate(enemyUnit, point, player.transform.rotation);
+
 
         }
         GoldValue.text = gold.ToString();
-        if (day >= 5 && !end)
+        
+        if ((day == 5) && (teleported == false))
         {
             end = true;
+
+
             //teleport player etc.
+            player.transform.position = new Vector3(20f, 0f, 20f);
+
+
+            //boss.SetActive(true);
+            //boss.GetComponent<Pathfinder>().enabled = true;
+
+            teleported = true;
         }
     }
 
@@ -110,5 +136,5 @@ public class gameManager : MonoBehaviour
         return false;
     }
 
-   
+
 }

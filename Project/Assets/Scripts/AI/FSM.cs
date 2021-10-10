@@ -55,7 +55,7 @@ public class FSM : MonoBehaviour
 
     //animation
     private Animator animator;
-    private bool isDeadconfirmed = false; 
+    private bool isDeadconfirmed = false;
 
     //timediff
     private float setTime;
@@ -117,15 +117,16 @@ public class FSM : MonoBehaviour
 
         if (waypointList.Length != 0)
         {
-            waypointList[0] = GameObject.Find("wayPoint (0)");
-            waypointList[1] = GameObject.Find("wayPoint (1)");
-            waypointList[2] = GameObject.Find("wayPoint (2)");
+           // waypointList[0] = GameObject.Find("wayPoint (0)");
+           // waypointList[1] = GameObject.Find("wayPoint (1)");
+           // waypointList[2] = GameObject.Find("wayPoint (2)");
         }
-        else {
+        else
+        {
 
             currentState = FSMStates.Chase;
         }
-        
+
     }
 
     // Update is called once per frame
@@ -148,7 +149,7 @@ public class FSM : MonoBehaviour
             currentState = FSMStates.Dead;
         }
 
-       
+
 
     }
 
@@ -206,7 +207,7 @@ public class FSM : MonoBehaviour
             currentState = FSMStates.Attack;
             setTime = Time.time;
 
-            
+
         }
     }
 
@@ -231,8 +232,10 @@ public class FSM : MonoBehaviour
         animator = GetComponent<Animator>();
         //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1);
 
-        if (enemyType == "melee") {
-            if (!aniRan && (animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) <= 0.35) {
+        if (enemyType == "melee")
+        {
+            if (!aniRan && (animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) <= 0.35)
+            {
                 aniRan = true;
             }
 
@@ -240,8 +243,9 @@ public class FSM : MonoBehaviour
             {
                 //if the enemy isn't facing the play don't apply damage
 
-               
-                if (Vector3.Dot(((playerPosition.transform.position - transform.position).normalized), transform.forward) > animationDamageTime) {
+
+                if (Vector3.Dot(((playerPosition.transform.position - transform.position).normalized), transform.forward) > animationDamageTime)
+                {
                     objPlayer.SendMessage("giveDamage", damage);
                 }
 
@@ -278,10 +282,10 @@ public class FSM : MonoBehaviour
             if (timeElapsed > attackSpeed)
             {
 
-             //sets the animation
-            animator.SetBool("Attacking", true);
-            //make navigation idle
-            nav.SetDestination(transform.position);
+                //sets the animation
+                animator.SetBool("Attacking", true);
+                //make navigation idle
+                nav.SetDestination(transform.position);
 
 
                 // Create an arrow at fire it towards the player
@@ -310,9 +314,10 @@ public class FSM : MonoBehaviour
                 animator.SetBool("Attacking", true);
                 //make navigation idle
                 nav.SetDestination(transform.position);
-                if ((Vector3.Distance(playerPosition.position, transform.position) - tempTime) < attackingRange) {
+                if ((Vector3.Distance(playerPosition.position, transform.position) - tempTime) < attackingRange)
+                {
                     objPlayer.SendMessage("giveDamage", damage);
-                    
+
                 }
                 timeElapsed = 0;
 
@@ -349,11 +354,12 @@ public class FSM : MonoBehaviour
         animator.SetBool("isDead", true);
         // Delete after animated has played
         Destroy(gameObject, 5f);
-        if (!isDeadconfirmed) {
+        if (!isDeadconfirmed)
+        {
             isDeadconfirmed = true;
             GameObject.FindGameObjectWithTag("GameManager").SendMessage("giveGold", goldAmount);
         }
-       
+
     }
 
     void OnDrawGizmosSelected()
@@ -378,7 +384,7 @@ public class FSM : MonoBehaviour
 
     }
 
-   
+
 
     public void giveDamage(int damage) // If hit - apply damage
     {
@@ -386,5 +392,5 @@ public class FSM : MonoBehaviour
 
     }
 
-    
+
 }
