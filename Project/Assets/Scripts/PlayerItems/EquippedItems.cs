@@ -9,13 +9,13 @@ public class EquippedItems : MonoBehaviour
     public GameObject equippedRanged;
     public GameObject currentEquipped;
 
-    public GameObject MC;
+    private GameObject MC;
 
-    public playerAttack p;
+    private playerAttack p;
 
     public float timeElapsed;
 
-    public WeaponProperties WP;
+    private WeaponProperties WP;
 
     // Start is called before the first frame update
     void Start()
@@ -118,7 +118,24 @@ public class EquippedItems : MonoBehaviour
 
 
     }
-
+    public void updateWeapons(string melee, string ranged)
+    {
+        Destroy(currentEquipped);
+        if (melee.Length != 0) {
+            equippedMelee = GameObject.FindWithTag(melee);
+        }
+        if (ranged.Length != 0)
+        {
+            equippedRanged = GameObject.FindWithTag(ranged);
+        }
+       
+        
+        
+        // Create the melee weapon as the starting equipped weapon
+        currentEquipped = Instantiate(equippedMelee, MC.transform);
+        currentEquipped.tag = "CurrentEquip";
+        WP = currentEquipped.GetComponent<WeaponProperties>();
+    }
     /*
     void removeMeleeWeapon()
     {

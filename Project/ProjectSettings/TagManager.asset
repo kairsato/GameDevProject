@@ -18,6 +18,7 @@ TagManager:
   - ManaSprite
   - HealthSprite
   - GameManager
+  - Terrain
   layers:
   - Default
   - TransparentFX

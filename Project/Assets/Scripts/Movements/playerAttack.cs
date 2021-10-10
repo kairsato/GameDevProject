@@ -124,11 +124,22 @@ public class playerAttack : MonoBehaviour
     {
         //Quaternion cameraAngles = entityface.transform.rotation;
         //cameraAngles.x += 90;
+
+
+        //hitBoxRanged.transform.Rotate(90, 180, 90);
+     
+        
+        
+
+       
         var hitBox = (GameObject)Instantiate(hitBoxRanged, entityface.transform.position + (entityface.transform.forward * 2), entityface.transform.rotation);
 
+        hitBox.transform.Rotate(90, 0, 0);
+      
         
         Rigidbody arrowRB = hitBox.GetComponent<Rigidbody>();
         arrowRB.velocity = entityface.transform.forward * 30;
+        
 
         // Check for collision - if yes run collision function
         hitboxtag = PHitboxP.currenttag;
